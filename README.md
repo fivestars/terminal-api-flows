@@ -2,6 +2,8 @@
 
 Setup a venv with Python 3.
 
+Adjust the settings for your environment inside the `__init__.py` file inside the `terminal_api_flows` folder.
+
 To install:
 > pip install -e .
 
