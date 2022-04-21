@@ -37,6 +37,7 @@ def http_request(endpoint, action, json_body=""):
             "pos-id": f"{POS_ID}",
             "authorization": f"Bearer {BEARER_TOKEN}",
             "content-type": "application/json",
+            "accept": "application/json",
         },
         body=json_body
     )
