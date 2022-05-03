@@ -49,3 +49,11 @@ def cancel_transaction():
         print_outcome("SUCCESS", res.status, json_data)
     else:
         print_outcome("FAILED", res.status, json_data)
+
+def cancel_transaction_404():
+    res, json_data = http_request(f"checkouts/281227a2-d799-4c88-a975-3ede80226fce/cancel", "POST")
+    if res.status == 404:
+        print_outcome("SUCCESS", res.status, json_data)
+    else:
+        print_outcome("FAILED", res.status, json_data)
+

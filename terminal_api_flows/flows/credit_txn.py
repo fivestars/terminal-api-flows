@@ -1,4 +1,5 @@
 import json
+import time
 
 from terminal_api_flows import print_outcome, generate_ids, http_request, get_customers
 

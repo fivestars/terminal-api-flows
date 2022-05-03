@@ -1,14 +1,19 @@
 import json
+import time
 import uuid
 import urllib3
 
 
 HTTP = urllib3.PoolManager()
 # Adjust these as needed
-BASE_URL = "https://ws.chad-dev-test-v1.kdev.awesomestartup.com/api/v1/terminals/222222222222/"
-BEARER_TOKEN = "7e5c8c2797e547fa8794715ceabe6efb"
-SOFTWARE_ID = "TEST1"
-POS_ID = "111"
+# BASE_URL = "https://bryan.edge.kdev.awesomestartup.com/terminal-api/v1/terminals/12345678/"
+# BASE_URL = "https://ws.chad-dev-test-v1.kdev.awesomestartup.com/api/v1/terminals/222222222222/"
+BASE_URL = "https://edge.nerfstars.com/terminal-api/v1/terminals/222222222222/"
+BEARER_TOKEN = "932507c606bd4ec6bdaeb17e1620b76d"
+SOFTWARE_ID = "PAYINSTORE47"
+# BEARER_TOKEN = "7e5c8c2797e547fa8794715ceabe6efb"
+# SOFTWARE_ID = "TEST1"
+POS_ID = "717"
 
 
 def print_outcome(failed, status_code, json_data=None):
@@ -41,6 +46,10 @@ def http_request(endpoint, action, json_body=""):
         },
         body=json_body
     )
+    # print("---------------------------")
+    # print(http_request.data)
+    # print("---------------------------")
+    # time.sleep(2)
     return http_request, json.loads(http_request.data.decode("utf-8"))
 
 

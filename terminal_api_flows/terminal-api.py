@@ -1,6 +1,6 @@
 from flows.cash_txn import cash_transaction
 from flows.credit_txn import credit_transaction
-from flows.cancel_txn import cancel_transaction
+from flows.cancel_txn import cancel_transaction, cancel_transaction_404
 from terminal_api_flows import ping
 
 
@@ -14,7 +14,7 @@ if __name__ == "__main__":
     # Run these one at a time - uncomment the one you wish to run.
 
     # Ping
-    ping()
+    # ping()
 
     # Cash Transaction
     # cash_transaction()
@@ -24,3 +24,5 @@ if __name__ == "__main__":
 
     # Cancel Transaction
     # cancel_transaction()
+
+    cancel_transaction_404()

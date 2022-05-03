@@ -14,7 +14,7 @@ def cash_transaction():
         "checkout": {
             "pos_checkout_id": pos_checkout_id,
             "type": "CASH",
-            "total": 800,
+            "total": 750,
             "customer_account_uid": customer_uid,
             "discounts_applied": discount
         },

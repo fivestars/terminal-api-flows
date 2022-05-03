@@ -14,6 +14,6 @@ if __name__ == "__main__":
         # The resulting file contents is put into the
         # repository here: https://github.com/fivestars/websocket/pull/546/files
         #
-        for i in range(1, 6):
-            uuidwriter.writerow(['QADEMOBUSINESS{}'.format(i), uuid.uuid4().hex])
+        for i in range(1, 21):
+            uuidwriter.writerow(['PARTNER{}'.format(i), uuid.uuid4().hex])
 
