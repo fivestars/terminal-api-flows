@@ -13,7 +13,7 @@ def cancel_transaction():
     checkout_data = {
         "checkout": {
             "pos_checkout_id": pos_checkout_id,
-            "type": "CASH",
+            "type": "CREDIT",
             "total": 800,
             "customer_account_uid": customer_uid,
             "discounts_applied": discount
