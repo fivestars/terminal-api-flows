@@ -1,7 +1,7 @@
 from flows.cash_txn import cash_transaction
-from flows.credit_txn import credit_transaction
-from flows.cancel_txn import cancel_transaction, cancel_transaction_404
-from terminal_api_flows import ping
+from flows.credit_txn import credit_transaction, verify_cpay_1567
+from flows.cancel_txn import cancel_transaction, cancel_transaction_404, cancel_transaction_105
+from terminal_api_flows import ping, get_customers
 
 
 if __name__ == "__main__":
@@ -25,4 +25,11 @@ if __name__ == "__main__":
     # Cancel Transaction
     # cancel_transaction()
 
-    cancel_transaction_404()
+    # cancel_transaction_404()
+    # cancel_transaction_105()
+
+    # Cancel check-in, start txn
+    # Verify https://sumupteam.atlassian.net/browse/CPAY-1567
+    # Just press the "Check in" button on cPay and the script will do the rest
+    get_customers(thenCancel=True)
+    verify_cpay_1567()

@@ -4,11 +4,12 @@ import uuid
 import urllib3
 
 
-HTTP = urllib3.PoolManager()
+HTTP = urllib3.PoolManager(timeout=160)
 # Adjust these as needed
 # BASE_URL = "https://bryan.edge.kdev.awesomestartup.com/terminal-api/v1/terminals/12345678/"
 # BASE_URL = "https://ws.chad-dev-test-v1.kdev.awesomestartup.com/api/v1/terminals/222222222222/"
 BASE_URL = "https://edge.nerfstars.com/terminal-api/v1/terminals/222222222222/"
+# BASE_URL = "https://edge.nerfstars.com/terminal-api/v1/terminals/6015/"
 BEARER_TOKEN = "932507c606bd4ec6bdaeb17e1620b76d"
 SOFTWARE_ID = "PAYINSTORE47"
 # BEARER_TOKEN = "7e5c8c2797e547fa8794715ceabe6efb"
@@ -38,7 +39,6 @@ def http_request(endpoint, action, json_body=""):
         action,
         f"{BASE_URL}/{endpoint}",
         headers={
-            "software-id": f"{SOFTWARE_ID}",
             "pos-id": f"{POS_ID}",
             "authorization": f"Bearer {BEARER_TOKEN}",
             "content-type": "application/json",
@@ -65,7 +65,7 @@ def ping():
         exit(1)
 
 
-def get_customers():
+def get_customers(thenCancel=False):
     json_data = {}
     discount = []
 
@@ -79,6 +79,16 @@ def get_customers():
         while json_data["customer"] == None:
             device_state = json_data["device"]["device_state_title"]
             print(f"Device State: {device_state}")
+
+            if device_state == "CHECKING_IN" and thenCancel:
+                res, json_data = http_request(f"checkouts/cancel", "POST")
+                print_outcome("CANCEL DATA:", res.status, json_data)
+                if res.status == 200:
+                    print_outcome("SUCCESS", res.status, json_data)
+                else:
+                    print_outcome("FAILED", res.status, json_data)
+                return
+
             res, json_data = http_request("customers", "GET")
     else:
         print_outcome("FAILED", res.status, json_data)
@@ -89,7 +99,8 @@ def get_customers():
     while json_data["device"]["device_state_title"] == "SELECTING_DISCOUNT" or "CHECKING_IN":
         device_state = json_data["device"]["device_state_title"]
         print(f"Device State: {device_state}")
-        if json_data["device"]["device_state_title"] == "AWAITING_CHECKOUT" or "AWAITING_PAYMENT":
+
+        if device_state == "AWAITING_CHECKOUT" or "AWAITING_PAYMENT":
             break
         res, json_data = http_request("customers", "GET")
 
