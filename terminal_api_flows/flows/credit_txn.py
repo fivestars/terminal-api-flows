@@ -107,6 +107,6 @@ def verify_cpay_1567():
             print_outcome("FAILED, ISSUE CPAY-1567 STILL EXISTS", res.status, json_data)
             exit(0)
 
-        print_outcome("SUCCESS", res.status, json_data)
+        print_outcome("SUCCESS", res.status)
     else:
         print_outcome("FAILED", res.status, json_data)
