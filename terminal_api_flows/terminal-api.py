@@ -1,3 +1,5 @@
+import logging
+
 from flows.cash_txn import cash_transaction
 from flows.credit_txn import credit_transaction, verify_cpay_1567
 from flows.cancel_txn import cancel_transaction, cancel_transaction_404, cancel_transaction_105
@@ -11,6 +13,12 @@ if __name__ == "__main__":
     # You can then run this file as you wish. I did not put in an
     # entry_points for it in setup.py since most likely it will
     # be run with a debugger inside VSCode or PyCharm.
+    # Setup logging for debug info
+    logging.basicConfig()
+    logging.getLogger().setLevel(logging.DEBUG)
+    requests_log = logging.getLogger("requests.packages.urllib3")
+    requests_log.setLevel(logging.DEBUG)
+    requests_log.propagate = True
     #
     # Run these one at a time - uncomment the one you wish to run.
 
@@ -24,10 +32,10 @@ if __name__ == "__main__":
     # credit_transaction()
 
     # Other Transaction
-    other_transaction()
+    # other_transaction()
 
     # Cancel Transaction
-    # cancel_transaction()
+    cancel_transaction()
 
     # cancel_transaction_404()
     # cancel_transaction_105()

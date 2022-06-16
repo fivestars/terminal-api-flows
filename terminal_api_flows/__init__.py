@@ -83,7 +83,7 @@ def get_customers(thenCancel=False):
             if device_state == "CHECKING_IN" and thenCancel:
                 res, json_data = http_request(f"checkouts/cancel", "POST")
                 print_outcome("CANCEL DATA:", res.status, json_data)
-                if res.status == 200:
+                if res.status == 200 and device_state == "TRANSACTION_CANCELLED":
                     print_outcome("SUCCESS", res.status, json_data)
                 else:
                     print_outcome("FAILED", res.status, json_data)
