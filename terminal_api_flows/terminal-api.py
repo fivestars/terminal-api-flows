@@ -4,6 +4,7 @@ from flows.cash_txn import cash_transaction
 from flows.credit_txn import credit_transaction, verify_cpay_1567
 from flows.cancel_txn import cancel_transaction, cancel_transaction_404, cancel_transaction_105
 from flows.other_txn import other_transaction
+from flows.refund import refund
 from terminal_api_flows import ping, get_customers
 
 
@@ -35,7 +36,21 @@ if __name__ == "__main__":
     # other_transaction()
 
     # Cancel Transaction
-    cancel_transaction()
+    # cancel_transaction()
+
+    # Refund - run a credit transaction and capture the checkout reference id
+    # Use the checkout reference id and amount in the params below
+    refund("91ca9ce791c64ce18b420310b2a15fab", 800)
+
+    # Partial Refund - run a credit transaction and capture the checkout reference id
+    # Use the checkout reference id and amount in the params below
+    # refund("86ba9ce791c64ca58b420321a2a15c56", 400)
+
+    # Refunds - Things to test
+    # - use an amount too high from the original amount
+    # - use an amount of $0
+    # - use the same checkout reference that has already been refunded
+    # - use and invalid checkout reference
 
     # cancel_transaction_404()
     # cancel_transaction_105()
