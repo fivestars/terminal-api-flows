@@ -7,7 +7,7 @@ from terminal_api_flows import print_outcome, generate_ids, http_request, get_cu
 # *********************** #
 # Credit Transaction Flow #
 # *********************** #
-def credit_transaction():
+def credit_transaction(total=0):
     json_data, discount = get_customers()
 
     pos_checkout_id, pos_order_id, customer_uid = generate_ids(json_data)
@@ -16,7 +16,7 @@ def credit_transaction():
         "checkout": {
             "pos_checkout_id": pos_checkout_id,
             "type": "CREDIT",
-            "total": 800,
+            "total": total,
             "customer_account_uid": customer_uid,
             "discounts_applied": discount
         },

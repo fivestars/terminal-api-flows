@@ -24,13 +24,22 @@ if __name__ == "__main__":
     # Run these one at a time - uncomment the one you wish to run.
 
     # Ping
-    # ping()
+    ping()
 
     # Cash Transaction
-    # cash_transaction()
+    # cash_transaction(total=850)
+
+    # $0 Dollar Cash Transaction
+    # cash_transaction(total=0)
 
     # Credit Transaction
-    # credit_transaction()
+    # credit_transaction(1550)
+
+    # $0 Dollar Credit Transaction
+    # Note to partners: If you are running a $0 transaction you should run
+    # it as a $0 CASH transaction unless you know they will be adding a tip
+    # to the $0 amount.
+    # credit_transaction(total=0)
 
     # Other Transaction
     # other_transaction()
@@ -40,7 +49,7 @@ if __name__ == "__main__":
 
     # Refund - run a credit transaction and capture the checkout reference id
     # Use the checkout reference id and amount in the params below
-    refund("91ca9ce791c64ce18b420310b2a15fab", 800)
+    # refund("91ca9ce791c64ce18b420310b2a15fab", 800)
 
     # Partial Refund - run a credit transaction and capture the checkout reference id
     # Use the checkout reference id and amount in the params below
