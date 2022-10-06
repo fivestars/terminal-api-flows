@@ -25,15 +25,17 @@ def _terminal_ping_decorator(function: callable, attempts: int, sleep_delay: int
         if response.status == 200 and json_data.get("connected"):
             LOGGER.info(" === Connected to terminal ===")
             return ret_function
+        else:
+            utils.bad_response_message(
+                func=_terminal_ping_decorator,
+                http_status=response.status,
+                json_data=json_data
+            )
         response, json_data = http_request("ping", "GET")
         made_attempts += 1
         time.sleep(sleep_delay)
     else:
-        utils.bad_response_message(
-            func=_terminal_ping_decorator,
-            http_status=response.status,
-            json_data=json_data
-        )
+        LOGGER.error("Terminal does not respond")
         exit(1)
 
 
