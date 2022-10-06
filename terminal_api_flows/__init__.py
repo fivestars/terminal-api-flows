@@ -1,14 +1,14 @@
 import json
-import time
 import uuid
 import urllib3
 
 
 HTTP = urllib3.PoolManager(timeout=160)
 # Adjust these as needed
-BASE_URL = "https://edge.nerfstars.com/terminal-api/v1/terminals/222222222222/"
+TERMINAL_ID = 2222222  # <-- TERMINAL ID HERE
 BEARER_TOKEN = " --> BEARER-TOKEN-HERE <--"
 SOFTWARE_ID = " --> SOFTWARE-ID <--"
+BASE_URL = f"https://edge.nerfstars.com/terminal-api/v1/terminals/{TERMINAL_ID}/"
 # This is your unique POS ID
 POS_ID = "123"
 
@@ -18,7 +18,7 @@ def print_outcome(failed, status_code, json_data=None):
     print(f"Flow Outcome: {failed}")
     print(f"Status Code: {status_code}")
     print("--------------------------------------")
-    if(json_data):
+    if json_data:
         print(json_data)
 
 
@@ -30,7 +30,7 @@ def generate_ids(json_data):
     return pos_checkout_id, pos_order_id, customer_uid
 
 
-def http_request(endpoint, action, json_body=""):
+def http_request(endpoint, action, json_body="") -> (urllib3.HTTPResponse, dict):
     http_request = HTTP.request(
         action,
         f"{BASE_URL}{endpoint}",
@@ -50,11 +50,9 @@ def http_request(endpoint, action, json_body=""):
 
 
 def ping():
-    json_data = {}
-
     res, json_data = http_request("ping", "GET")
 
-    if res.status == 200 and json_data["connected"] == True:
+    if res.status == 200 and json_data["connected"]:
         print_outcome("SUCCESS", res.status, json_data)
     else:
         print_outcome("FAILED", res.status, json_data)
@@ -62,17 +60,14 @@ def ping():
 
 
 def get_customers(thenCancel=False):
-    json_data = {}
     discount = []
 
     res, json_data = http_request("customers", "GET")
 
-    # Call the customers endpoint again on every one of
-    # these until the customer object is no longer null
     # Possible status values that will be returned:
     # IDLE | CHECKING_IN | SELECTING_DISCOUNT | AWAITING_PAYMENT | AWAITING_CHECKOUT
     if res.status == 200:
-        while json_data["customer"] == None:
+        while json_data["customer"] is None:
             device_state = json_data["device"]["device_state_title"]
             print(f"Device State: {device_state}")
 
@@ -102,7 +97,7 @@ def get_customers(thenCancel=False):
 
     # If there is a reward passed in, apply it
     if len(json_data["customer"]["discounts"]) > 0:
-            discount = [ json_data["customer"]["discounts"][0]["uid"] ]
+        discount = [json_data["customer"]["discounts"][0]["uid"]]
 
     return json_data, discount
 

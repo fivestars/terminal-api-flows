@@ -1,11 +1,15 @@
 import json
 
 from terminal_api_flows import print_outcome, generate_ids, http_request, get_customers
+from terminal_api_flows.tools.decorators import terminal_ping_decorator_3_attempts
+
 
 # ********************** #
 # Cash Transaction Flow  #
 # ********************** #
-def cash_transaction(total=0):
+
+@terminal_ping_decorator_3_attempts
+def cash_transaction(total):
     json_data, discount = get_customers()
 
     pos_checkout_id, pos_order_id, customer_uid = generate_ids(json_data)
@@ -46,7 +50,7 @@ def cash_transaction(total=0):
     if res.status == 200 and json_data["status"] == "TRANSACTION_STARTED":
         res, json_data = http_request(f"checkouts/{pos_checkout_id}", "GET")
 
-        status =  json_data["status"]
+        status = json_data["status"]
 
         if status == "SUCCESSFUL":
             print_outcome("SUCCESS", res.status, json_data)
@@ -54,7 +58,7 @@ def cash_transaction(total=0):
 
         print(f"Transaction Status: {status}")
 
-        while  status != "SUCCESSFUL":
+        while status != "SUCCESSFUL":
             res, json_data = http_request(f"checkouts/{pos_checkout_id}", "GET")
             print_outcome("SUCCESS", res.status, json_data)
     else:

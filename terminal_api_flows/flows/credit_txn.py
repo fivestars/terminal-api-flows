@@ -1,12 +1,15 @@
 import json
-import time
 import uuid
 
 from terminal_api_flows import print_outcome, generate_ids, http_request, get_customers
+from terminal_api_flows.tools.decorators import terminal_ping_decorator_3_attempts
+
 
 # *********************** #
 # Credit Transaction Flow #
 # *********************** #
+
+@terminal_ping_decorator_3_attempts
 def credit_transaction(total=0):
     json_data, discount = get_customers()
 
@@ -56,7 +59,7 @@ def credit_transaction(total=0):
 
         print(f"Transaction Status: {status}")
 
-        while  status != "SUCCESSFUL":
+        while status != "SUCCESSFUL":
             res, json_data = http_request(f"checkouts/{pos_checkout_id}", "GET")
             print_outcome("SUCCESS", res.status, json_data)
     else:
@@ -66,6 +69,8 @@ def credit_transaction(total=0):
 # *********************** #
 # Credit Transaction Flow #
 # *********************** #
+
+@terminal_ping_decorator_3_attempts
 def verify_cpay_1567():
     checkout_data = {
         "checkout": {
