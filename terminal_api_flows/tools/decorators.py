@@ -30,11 +30,11 @@ def _terminal_ping_decorator(function: callable, attempts: int, sleep_delay: int
                     http_status=response.status,
                     json_data=json_data
                 )
+            time.sleep(sleep_delay)
             response, json_data = http_request("ping", "GET")
             made_attempts += 1
-            time.sleep(sleep_delay)
         else:
-            LOGGER.error("Terminal does not respond")
+            LOGGER.error("After three attempts - no response was received")
             exit(1)
     return ret_function
 
