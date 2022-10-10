@@ -5,7 +5,7 @@ import urllib3
 
 HTTP = urllib3.PoolManager(timeout=160)
 # Adjust these as needed
-TERMINAL_ID = 2222222  # <-- TERMINAL ID HERE
+TERMINAL_ID = " --> TERMINAL ID HERE <--- "
 BEARER_TOKEN = " --> BEARER-TOKEN-HERE <--"
 SOFTWARE_ID = " --> SOFTWARE-ID <--"
 BASE_URL = f"https://edge.nerfstars.com/terminal-api/v1/terminals/{TERMINAL_ID}/"
