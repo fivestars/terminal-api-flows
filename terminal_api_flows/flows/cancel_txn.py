@@ -1,10 +1,13 @@
 import json
 
 from terminal_api_flows import print_outcome, generate_ids, http_request, get_customers
+from terminal_api_flows.tools.decorators import terminal_ping_decorator_3_attempts
+
 
 # ************************ #
 # Cancel Transaction Flow  #
 # ************************ #
+@terminal_ping_decorator_3_attempts
 def cancel_transaction():
     json_data, discount = get_customers()
 
@@ -50,6 +53,8 @@ def cancel_transaction():
     else:
         print_outcome("FAILED", res.status, json_data)
 
+
+@terminal_ping_decorator_3_attempts
 def cancel_transaction_404():
     res, json_data = http_request(f"checkouts/281227a2-d799-4c88-a975-3ede80226fce/cancel", "POST")
     if res.status == 404:
@@ -58,6 +63,7 @@ def cancel_transaction_404():
         print_outcome("FAILED", res.status, json_data)
 
 
+@terminal_ping_decorator_3_attempts
 def cancel_transaction_105():
     json_data, discount = get_customers()
 

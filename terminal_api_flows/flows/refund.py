@@ -1,10 +1,13 @@
 import json
 
 from terminal_api_flows import print_outcome, http_request
+from terminal_api_flows.tools.decorators import terminal_ping_decorator_3_attempts
+
 
 # ********************** #
 #      Refund Flow       #
 # ********************** #
+@terminal_ping_decorator_3_attempts
 def refund(checkout_reference, amount):
 
     refund_data = {
