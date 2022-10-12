@@ -51,7 +51,7 @@ def credit_transaction(total=0):
     if res.status == 200 and json_data["status"] == "TRANSACTION_STARTED":
         res, json_data = http_request(f"checkouts/{pos_checkout_id}", "GET")
 
-        status =  json_data["status"]
+        status = json_data["status"]
 
         if status == "SUCCESSFUL":
             print_outcome("SUCCESS", res.status, json_data)
@@ -61,6 +61,9 @@ def credit_transaction(total=0):
 
         while status != "SUCCESSFUL":
             res, json_data = http_request(f"checkouts/{pos_checkout_id}", "GET")
+            if status == "CANCELED_BY_CUSTOMER":
+                print_outcome("CANCELED_BY_CUSTOMER", res.status, json_data)
+                exit(0)
             print_outcome("SUCCESS", res.status, json_data)
     else:
         print_outcome("FAILED", res.status, json_data)
@@ -106,7 +109,7 @@ def verify_cpay_1567():
     res, json_data = http_request("checkouts", "POST", json.dumps(checkout_data).encode("utf-8"))
 
     if res.status == 200:
-        status =  json_data["status"]
+        status = json_data["status"]
 
         if status == "PRIOR_TRANSACTION_ALREADY_IN_PROGRESS":
             print_outcome("FAILED, ISSUE CPAY-1567 STILL EXISTS", res.status, json_data)
