@@ -36,6 +36,7 @@ def http_request(endpoint, action, json_body="") -> (urllib3.HTTPResponse, dict)
         f"{BASE_URL}{endpoint}",
         headers={
             "pos-id": f"{POS_ID}",
+            "software-id": f"{SOFTWARE_ID}",
             "authorization": f"Bearer {BEARER_TOKEN}",
             "content-type": "application/json",
             "accept": "application/json",

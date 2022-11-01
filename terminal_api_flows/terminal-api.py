@@ -1,7 +1,7 @@
 import logging
 
 from flows.cash_txn import cash_transaction
-from flows.credit_txn import credit_transaction, verify_cpay_1567
+from flows.credit_txn import credit_transaction, credit_to_cash_transaction,  verify_cpay_1567
 from flows.cancel_txn import cancel_transaction, cancel_transaction_404, cancel_transaction_105
 from flows.other_txn import other_transaction
 from flows.refund import refund
@@ -34,6 +34,11 @@ if __name__ == "__main__":
 
     # Credit Transaction
     # credit_transaction(1550)
+
+    # Credit to Cash Transaction
+    # Note to partners: cash switching will be triggered if cpay returns this card error statuses:
+    # Nfc-Read-Error, Did-Read-Error, Swipe-Read-Error
+    # credit_to_cash_transaction(1550)
 
     # $0 Dollar Credit Transaction
     # Note to partners: If you are running a $0 transaction you should run
