@@ -36,8 +36,8 @@ if __name__ == "__main__":
     # credit_transaction(1550)
 
     # Credit to Cash Transaction
-    # Note to partners: cash switching will be triggered if cpay returns this card error statuses:
-    # Nfc-Read-Error, Did-Read-Error, Swipe-Read-Error
+    # Note to partners: cash switching will be triggered if cPay returns any card decline, swipe read errors, etc.
+    # Also note that you cannot sign in with a credit card to trigger this - sign in with a phone number
     # credit_to_cash_transaction(1550)
 
     # $0 Dollar Credit Transaction
