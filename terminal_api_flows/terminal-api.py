@@ -72,5 +72,5 @@ if __name__ == "__main__":
     # Cancel check-in, start txn
     # Verify https://sumupteam.atlassian.net/browse/CPAY-1567
     # Just press the "Check in" button on cPay and the script will do the rest
-    # get_customers(thenCancel=True)
+    # get_customers(then_cancel=True)
     # verify_cpay_1567()

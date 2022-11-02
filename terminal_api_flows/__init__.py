@@ -31,7 +31,7 @@ def generate_ids(json_data):
 
 
 def http_request(endpoint, action, json_body="") -> (urllib3.HTTPResponse, dict):
-    http_request = HTTP.request(
+    request = HTTP.request(
         action,
         f"{BASE_URL}{endpoint}",
         headers={
@@ -47,7 +47,7 @@ def http_request(endpoint, action, json_body="") -> (urllib3.HTTPResponse, dict)
     # print(http_request.data)
     # print("---------------------------")
     # time.sleep(2)
-    return http_request, json.loads(http_request.data.decode("utf-8"))
+    return request, json.loads(request.data.decode("utf-8"))
 
 
 def ping():
@@ -60,8 +60,7 @@ def ping():
         exit(1)
 
 
-def get_customers(thenCancel=False):
-    discount = []
+def get_customers(then_cancel=False):
 
     res, json_data = http_request("customers", "GET")
 
@@ -72,7 +71,7 @@ def get_customers(thenCancel=False):
             device_state = json_data["device"]["device_state_title"]
             print(f"Device State: {device_state}")
 
-            if device_state == "CHECKING_IN" and thenCancel:
+            if device_state == "CHECKING_IN" and then_cancel:
                 res, json_data = http_request(f"checkouts/cancel", "POST")
                 print_outcome("CANCEL DATA:", res.status, json_data)
                 if res.status == 200 and device_state == "TRANSACTION_CANCELLED":
@@ -88,17 +87,21 @@ def get_customers(thenCancel=False):
 
     res, json_data = http_request("customers", "GET")
 
-    while json_data["device"]["device_state_title"] == "SELECTING_DISCOUNT" or "CHECKING_IN":
+    while json_data["device"]["device_state_title"] in ["SELECTING_DISCOUNT", "CHECKING_IN"]:
         device_state = json_data["device"]["device_state_title"]
         print(f"Device State: {device_state}")
 
-        if device_state == "AWAITING_CHECKOUT" or "AWAITING_PAYMENT":
+        if device_state in ["AWAITING_CHECKOUT", "AWAITING_PAYMENT"]:
             break
         res, json_data = http_request("customers", "GET")
 
     # If there is a reward passed in, apply it
-    if len(json_data["customer"]["discounts"]) > 0:
-        discount = [json_data["customer"]["discounts"][0]["uid"]]
+    discount_uids = []
+    selected_discounts = list(filter(lambda d: d.get("selected", False), json_data["customer"]["discounts"]))
+    if len(selected_discounts) > 0:
+        discount_uids = [selected_discounts[0]["uid"]]
 
-    return json_data, discount
+    print('--------------- Customer Data ---------------')
+    print(json_data)
 
+    return json_data, discount_uids
