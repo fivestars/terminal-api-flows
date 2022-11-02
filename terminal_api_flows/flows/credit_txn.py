@@ -6,10 +6,31 @@ from terminal_api_flows.tools.decorators import terminal_ping_decorator_3_attemp
 
 
 CARD_DECLINE_STATUSES = [
-    "NFC_READ_ERROR",
+    "DECLINED_ERROR",
+    "DECLINED_ERROR_DIP_MSG",
+    "DECLINED_ERROR_SWIPE_MSG",
+    "PAYMENT_GENERAL_ERROR",
+    "PAYMENT_GENERAL_DIP_MSG",
+    "PAYMENT_GENERAL_SWIPE_MSG",
     "DIP_READ_ERROR",
+    "DIP_READ_ERROR_MSG",
     "SWIPE_READ_ERROR",
+    "SWIPE_READ_ERROR_MSG",
+    "NFC_READ_ERROR",
+    "NFC_DECLINE_ERROR_MSG",
+    "NFC_GENERAL_ERROR_MSG",
 ]
+
+
+def handle_switch_to_cash_flow(status):
+    if status in CARD_DECLINE_STATUSES:
+        print(f"Credit Card Status: {status}")
+        res, json_data = http_request(
+            f"checkouts", "PUT",
+            json.dumps({"checkout": {"type": "CASH"}}).encode("utf-8")
+        )
+        print_outcome("SWITCHED_TO_CASH", res.status, json_data)
+        exit(0)
 
 
 # *********************** #
@@ -66,19 +87,15 @@ def credit_to_cash_transaction(total=0):
 
         print(f"Transaction Status: {status}")
 
-        if status in CARD_DECLINE_STATUSES:
-            res, json_data = http_request(
-                f"checkouts", "PUT",
-                json.dumps({"checkout": {"type": "CASH"}}).encode("utf-8")
-            )
-            print_outcome("SWITCHED_TO_CASH", res.status, json_data)
-            exit(0)
+        handle_switch_to_cash_flow(status)
 
         while status != "SUCCESSFUL":
             res, json_data = http_request(f"checkouts/{pos_checkout_id}", "GET")
+            status = json_data["status"]
             if status == "CANCELED_BY_CUSTOMER":
                 print_outcome("CANCELED_BY_CUSTOMER", res.status, json_data)
                 exit(0)
+            handle_switch_to_cash_flow(status)
             print_outcome("SUCCESS", res.status, json_data)
     else:
         print_outcome("FAILED", res.status, json_data)
