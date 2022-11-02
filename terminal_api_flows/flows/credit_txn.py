@@ -30,7 +30,6 @@ def handle_switch_to_cash_flow(status):
             json.dumps({"checkout": {"type": "CASH"}}).encode("utf-8")
         )
         print_outcome("SWITCHED_TO_CASH", res.status, json_data)
-        exit(0)
 
 
 # *********************** #
