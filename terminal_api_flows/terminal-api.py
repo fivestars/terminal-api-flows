@@ -1,7 +1,7 @@
 import logging
 
 from flows.cash_txn import cash_transaction
-from flows.credit_txn import credit_transaction, verify_cpay_1567
+from flows.credit_txn import credit_transaction, credit_to_cash_transaction,  verify_cpay_1567
 from flows.cancel_txn import cancel_transaction, cancel_transaction_404, cancel_transaction_105
 from flows.other_txn import other_transaction
 from flows.refund import refund
@@ -35,6 +35,11 @@ if __name__ == "__main__":
     # Credit Transaction
     # credit_transaction(1550)
 
+    # Credit to Cash Transaction
+    # Note to partners: cash switching will be triggered if cPay returns any card decline, swipe read errors, etc.
+    # Also note that you cannot sign in with a credit card to trigger this - sign in with a phone number
+    # credit_to_cash_transaction(1550)
+
     # $0 Dollar Credit Transaction
     # Note to partners: If you are running a $0 transaction you should run
     # it as a $0 CASH transaction unless you know they will be adding a tip
@@ -67,5 +72,5 @@ if __name__ == "__main__":
     # Cancel check-in, start txn
     # Verify https://sumupteam.atlassian.net/browse/CPAY-1567
     # Just press the "Check in" button on cPay and the script will do the rest
-    # get_customers(thenCancel=True)
+    # get_customers(then_cancel=True)
     # verify_cpay_1567()
