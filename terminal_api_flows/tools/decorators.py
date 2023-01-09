@@ -27,7 +27,7 @@ def _terminal_ping_decorator(function: callable, attempts: int, sleep_delay: int
             else:
                 utils.bad_response_message(
                     func=_terminal_ping_decorator,
-                    http_status=response.status,
+                    response=response,
                     json_data=json_data
                 )
             time.sleep(sleep_delay)
