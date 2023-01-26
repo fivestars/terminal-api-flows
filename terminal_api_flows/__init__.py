@@ -1,3 +1,4 @@
+from  base64 import b64encode
 import json
 import uuid
 import urllib3
@@ -6,8 +7,8 @@ import urllib3
 HTTP = urllib3.PoolManager(timeout=160)
 # Adjust these as needed
 TERMINAL_ID = " --> TERMINAL ID HERE <--- "
-BEARER_TOKEN = " --> BEARER-TOKEN-HERE <--"
-SOFTWARE_ID = " --> SOFTWARE-ID <--"
+KEY_SECRET = " --> KEY-SECRET-HERE <--" # Format is your KEY:SECRET
+FIVESTARS_SOFTWARE_ID = " --> FIVESTARS-SOFTWARE-ID <--"
 BASE_URL = f"https://edge.nerfstars.com/terminal-api/v1/terminals/{TERMINAL_ID}/"
 # This is your unique POS ID
 POS_ID = "123"
@@ -36,8 +37,8 @@ def http_request(endpoint, action, json_body="") -> (urllib3.HTTPResponse, dict)
         f"{BASE_URL}{endpoint}",
         headers={
             "pos-id": f"{POS_ID}",
-            "software-id": f"{SOFTWARE_ID}",
-            "authorization": f"Bearer {BEARER_TOKEN}",
+            "fivestars-software-id": f"{FIVESTARS_SOFTWARE_ID}",
+            "authorization": f"Basic {b64encode(bytes(f'{KEY_SECRET}', encoding='ascii')).decode('ascii')}",
             "content-type": "application/json",
             "accept": "application/json",
         },
