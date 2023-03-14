@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: terminal-api-flows
+  annotations:
+    github.com/project-slug: fivestars/terminal-api-flows
+spec:
+  type: other
+  lifecycle: unknown
+  owner: fivestars
