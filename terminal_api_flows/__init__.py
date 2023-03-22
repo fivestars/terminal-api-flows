@@ -44,9 +44,12 @@ def http_request(endpoint, action, json_body="") -> (urllib3.HTTPResponse, dict)
         },
         body=json_body
     )
-    # print("---------------------------")
-    # print(http_request.data)
-    # print("---------------------------")
+    try:
+        print("---------------------------")
+        print(http_request.data)
+        print("---------------------------")
+    except:
+        pass
     # time.sleep(2)
     return request, json.loads(request.data.decode("utf-8"))
 
@@ -61,7 +64,14 @@ def ping():
         exit(1)
 
 
-def get_customers(then_cancel=False):
+def get_customers(then_cancel=False, skip_signin=False):
+    if skip_signin:
+        json_data = {
+            "customer": {
+                "uid": ''
+            }
+        }
+        return json_data, []
 
     res, json_data = http_request("customers", "GET")
 

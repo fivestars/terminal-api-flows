@@ -9,8 +9,8 @@ from terminal_api_flows.tools.decorators import terminal_ping_decorator_3_attemp
 # ********************** #
 
 @terminal_ping_decorator_3_attempts
-def cash_transaction(total):
-    json_data, discount = get_customers()
+def cash_transaction(total, skip_tip=False, skip_reward_notification=False, skip_signin=False):
+    json_data, discount = get_customers(skip_signin=skip_signin)
 
     pos_checkout_id, pos_order_id, customer_uid = generate_ids(json_data)
 
@@ -20,7 +20,10 @@ def cash_transaction(total):
             "type": "CASH",
             "total": total,
             "customer_account_uid": customer_uid,
-            "discounts_applied": discount
+            "discounts_applied": discount,
+            "skip_tip": skip_tip,
+            "skip_reward_notification": skip_reward_notification,
+            "skip_signin": skip_signin
         },
         "order": {
             "currency": "USD",
