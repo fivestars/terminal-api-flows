@@ -37,8 +37,8 @@ def handle_switch_to_cash_flow(status):
 # *********************** #
 
 @terminal_ping_decorator_3_attempts
-def credit_to_cash_transaction(total=0, skip_tip=False, skip_reward_notification=False):
-    json_data, discount = get_customers()
+def credit_to_cash_transaction(total=0, skip_tip=False, skip_reward_notification=False, allow_discount=True):
+    json_data, discount = get_customers(allow_discount=allow_discount)
 
     pos_checkout_id, pos_order_id, customer_uid = generate_ids(json_data)
 
@@ -105,8 +105,8 @@ def credit_to_cash_transaction(total=0, skip_tip=False, skip_reward_notification
 
 
 @terminal_ping_decorator_3_attempts
-def credit_transaction(total=0, skip_tip=False, skip_reward_notification=False, skip_signin=False):
-    json_data, discount = get_customers(skip_signin=skip_signin)
+def credit_transaction(total=0, skip_tip=False, skip_reward_notification=False, skip_signin=False, allow_discount=True):
+    json_data, discount = get_customers(skip_signin=skip_signin, allow_discount=allow_discount)
 
     pos_checkout_id, pos_order_id, customer_uid = generate_ids(json_data)
 
