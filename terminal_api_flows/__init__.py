@@ -44,12 +44,14 @@ def http_request(endpoint, action, json_body="") -> (urllib3.HTTPResponse, dict)
         },
         body=json_body
     )
-    try:
-        print("---------------------------")
-        print(http_request.data)
-        print("---------------------------")
-    except:
-        pass
+    # Uncomment for debugging assistance
+    # try:
+    #     print("---------------------------")
+    #     print(http_request.data)
+    #     print("---------------------------")
+    # except:
+    #     pass
+    # Add a sleep if you want to slow the calls down
     # time.sleep(2)
     return request, json.loads(request.data.decode("utf-8"))
 
