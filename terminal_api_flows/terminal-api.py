@@ -29,21 +29,24 @@ if __name__ == "__main__":
     # TAPI v1.0.0.3 https://app.swaggerhub.com/apis/fs-integrations/Terminal-API/1.0.0.3
     # There are 3 options to skip screens and you can enable/disable some or all
     # SKIP_TIPS - SKIP_REWARD_NOTIFICATION - SKIP_SIGNIN
+    # allow_discount parameter when set to False will override a discount/reward and replace it with the first
+    # unselected one found. If there are no unselected ones it removes the reward/discount. You can of course
+    # override this with any valid discount uid returned from the GET /customers call (look for the discounts field)
 
-    # Cash Transaction
-    # cash_transaction(total=850, skip_tip=False, skip_reward_notification=False, skip_signin=False)
+    # Cash Transaction (Reminder: tips are only on credit transactions so skip_tip has no effect here)
+    # cash_transaction(total=850, skip_tip=False, skip_reward_notification=False, skip_signin=False, allow_discount=True)
 
     # $0 Dollar Cash Transaction
-    # cash_transaction(total=0, skip_tip=False, skip_reward_notification=False, skip_signin=False)
+    # cash_transaction(total=0, skip_tip=False, skip_reward_notification=False, skip_signin=False, allow_discount=True)
 
     # Credit Transaction
-    # credit_transaction(1550, skip_tip=False, skip_reward_notification=False, skip_signin=False)
+    # credit_transaction(1550, skip_tip=False, skip_reward_notification=False, skip_signin=False, allow_discount=True)
 
     # Credit to Cash Transaction
     # Note to partners: cash switching will be triggered if cPay returns any card decline, swipe read errors, etc.
     # Note: you cannot sign in with a credit card to trigger this - sign in with a phone number
     # Note: skip_signin is not available in this kind of flow
-    # credit_to_cash_transaction(1550, skip_tip=False, skip_reward_notification=False)
+    # credit_to_cash_transaction(1550, skip_tip=False, skip_reward_notification=False, allow_discount=True)
 
     # $0 Dollar Credit Transaction
     # Note to partners: If you are running a $0 transaction you should run
@@ -52,7 +55,7 @@ if __name__ == "__main__":
     # credit_transaction(total=0)
 
     # Other Transaction
-    # other_transaction(skip_tip=False, skip_reward_notification=False, skip_signin=False)
+    # other_transaction(skip_tip=False, skip_reward_notification=False, skip_signin=False, allow_discount=True)
 
     # Cancel Transaction
     # cancel_transaction()

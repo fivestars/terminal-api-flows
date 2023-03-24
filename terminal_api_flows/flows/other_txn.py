@@ -8,8 +8,8 @@ from terminal_api_flows.tools.decorators import terminal_ping_decorator_3_attemp
 # Other Transaction Flow  #
 # *********************** #
 @terminal_ping_decorator_3_attempts
-def other_transaction(skip_tip=False, skip_reward_notification=False, skip_signin=False):
-    json_data, discount = get_customers(skip_signin=skip_signin)
+def other_transaction(skip_tip=False, skip_reward_notification=False, skip_signin=False, allow_discount=True):
+    json_data, discount = get_customers(skip_signin=skip_signin, allow_discount=allow_discount)
 
     pos_checkout_id, pos_order_id, customer_uid = generate_ids(json_data)
 

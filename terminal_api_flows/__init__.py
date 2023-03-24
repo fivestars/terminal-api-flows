@@ -66,7 +66,7 @@ def ping():
         exit(1)
 
 
-def get_customers(then_cancel=False, skip_signin=False):
+def get_customers(then_cancel=False, skip_signin=False, allow_discount=True):
     if skip_signin:
         json_data = {
             "customer": {
@@ -108,11 +108,16 @@ def get_customers(then_cancel=False, skip_signin=False):
             break
         res, json_data = http_request("customers", "GET")
 
-    # If there is a reward passed in, apply it
+    # If there is a reward passed in, apply it if allow_discount=True
+    # otherwise if allow_discount=False then pick the first unselected
+    # reward or if there are none remove the discount/reward completely
     discount_uids = []
-    selected_discounts = list(filter(lambda d: d.get("selected", False), json_data["customer"]["discounts"]))
-    if len(selected_discounts) > 0:
-        discount_uids = [selected_discounts[0]["uid"]]
+    discounts = list(filter(lambda x: x["selected"]==allow_discount, json_data["customer"]["discounts"]))
+
+    if len(discounts) > 0:
+        # Even if its an override we just grab the first discount id
+        # In a point of sale you can set this to whatever discount ids are available
+        discount_uids = [discounts[0]["uid"]]
 
     print('--------------- Customer Data ---------------')
     print(json_data)
