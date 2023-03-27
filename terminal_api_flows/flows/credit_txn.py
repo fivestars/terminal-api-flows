@@ -1,4 +1,5 @@
 import json
+import time
 import uuid
 
 from terminal_api_flows import print_outcome, generate_ids, http_request, get_customers
@@ -159,10 +160,16 @@ def credit_transaction(total=0, skip_tip=False, skip_reward_notification=False, 
 
         while status != "SUCCESSFUL":
             res, json_data = http_request(f"checkouts/{pos_checkout_id}", "GET")
+            status = json_data["status"]
+
             if status == "CANCELED_BY_CUSTOMER":
                 print_outcome("CANCELED_BY_CUSTOMER", res.status, json_data)
                 exit(0)
-            print_outcome("SUCCESS", res.status, json_data)
+            if status in CARD_DECLINE_STATUSES:
+                print(f"Problem with payment: {status}")
+                # Backoff a bit, wait for the customer to try another card
+                time.sleep(3)
+        print_outcome("SUCCESS", res.status, json_data)
     else:
         print_outcome("FAILED", res.status, json_data)
 
