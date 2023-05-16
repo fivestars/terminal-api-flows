@@ -60,9 +60,10 @@ if __name__ == "__main__":
     #     # you are on a screen you want to skip.
     #     skip_tips_screen=True,
     #     # Approval screen happens very fast after the POST checkouts and
-    #     # is very difficult to catch in real time. If you wan to test this you can
+    #     # is very difficult to catch in real time. If you want to test this you can
     #     # wait for the 2 minute timeout and it will move you along to the next screen.
     #     # Note: The approval screen only shows when early checkin with a credit card is used
+    #     # and a card checkout is started.
     #     skip_approval_screen=False,
     #     skip_reward_notification_screen=True)
 
