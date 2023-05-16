@@ -4,6 +4,7 @@ import uuid
 
 from terminal_api_flows import print_outcome, generate_ids, http_request, get_customers
 from terminal_api_flows.tools.decorators import terminal_ping_decorator_3_attempts
+from terminal_api_flows import skip_screen
 
 
 CARD_DECLINE_STATUSES = [
@@ -106,7 +107,17 @@ def credit_to_cash_transaction(total=0, skip_tip=False, skip_reward_notification
 
 
 @terminal_ping_decorator_3_attempts
-def credit_transaction(total=0, skip_tip=False, skip_reward_notification=False, skip_signin=False, allow_discount=True):
+def credit_transaction(
+        total=0,
+        skip_tip=False,
+        skip_reward_notification=False,
+        skip_signin=False,
+        allow_discount=True,
+        # Skip screens in real time if they come up
+        skip_tips_screen=False,
+        skip_reward_notification_screen=False,
+        skip_approval_screen=False
+    ):
     json_data, discount = get_customers(skip_signin=skip_signin, allow_discount=allow_discount)
 
     pos_checkout_id, pos_order_id, customer_uid = generate_ids(json_data)
@@ -158,9 +169,18 @@ def credit_transaction(total=0, skip_tip=False, skip_reward_notification=False, 
 
         print(f"Transaction Status: {status}")
 
+        # Potential here to skip the current screen
+        # This has to be checked here and in the following loop as the screens can show up right away
+        # once the transaction has kicked off and depending on the customer termainal's settings.
+        if skip_tips_screen and status == "SCREEN_TIPS" or \
+            skip_approval_screen and status == "SCREEN_APPROVAL" or \
+            skip_reward_notification_screen and status == "SCREEN_REWARD_NOTIFICATION":
+            skip_screen()
+
         while status != "SUCCESSFUL":
             res, json_data = http_request(f"checkouts/{pos_checkout_id}", "GET")
             status = json_data["status"]
+            print(f"Transaction Status: {status}")
 
             if status == "CANCELED_BY_CUSTOMER":
                 print_outcome("CANCELED_BY_CUSTOMER", res.status, json_data)
@@ -169,6 +189,14 @@ def credit_transaction(total=0, skip_tip=False, skip_reward_notification=False, 
                 print(f"Problem with payment: {status}")
                 # Backoff a bit, wait for the customer to try another card
                 time.sleep(3)
+            # Potential here to skip the current screen
+            # This has to be checked here and in the following loop as the screens can show up right away
+            # once the transaction has kicked off and depending on the customer termainal's settings.
+            if skip_tips_screen and status == "SCREEN_TIPS" or \
+                skip_approval_screen and status == "SCREEN_APPROVAL" or \
+                skip_reward_notification_screen and status == "SCREEN_REWARD_NOTIFICATION":
+                skip_screen()
+
         print_outcome("SUCCESS", res.status, json_data)
     else:
         print_outcome("FAILED", res.status, json_data)

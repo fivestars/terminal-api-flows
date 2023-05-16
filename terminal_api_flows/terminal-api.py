@@ -34,13 +34,37 @@ if __name__ == "__main__":
     # override this with any valid discount uid returned from the GET /customers call (look for the discounts field)
 
     # Cash Transaction (Reminder: tips are only on credit transactions so skip_tip has no effect here)
-    # cash_transaction(total=850, skip_tip=False, skip_reward_notification=False, skip_signin=False, allow_discount=True)
+    # cash_transaction(
+    #     total=850,
+    #     skip_tip=False,
+    #     skip_reward_notification=False,
+    #     skip_signin=False,
+    #     allow_discount=True
+    # )
 
     # $0 Dollar Cash Transaction
     # cash_transaction(total=0, skip_tip=False, skip_reward_notification=False, skip_signin=False, allow_discount=True)
 
     # Credit Transaction
-    # credit_transaction(1550, skip_tip=False, skip_reward_notification=False, skip_signin=False, allow_discount=True)
+    # credit_transaction(
+    #     1875,
+    #     skip_tip=False,
+    #     # You can skips these screens when you post the checkout
+    #     skip_reward_notification=False,
+    #     skip_signin=False,
+    #     allow_discount=True,
+    #     # You can skips these screens when they show up in real time
+    #     # The notifications can happen very fast so you may not see them
+    #     # prior to re-starting your long poll connection. A second call to
+    #     # the actions endpoint to skip a screen might be required if you suspect
+    #     # you are on a screen you want to skip.
+    #     skip_tips_screen=True,
+    #     # Approval screen happens very fast after the POST checkouts and
+    #     # is very difficult to catch in real time. If you wan to test this you can
+    #     # wait for the 2 minute timeout and it will move you along to the next screen.
+    #     # Note: The approval screen only shows when early checkin with a credit card is used
+    #     skip_approval_screen=False,
+    #     skip_reward_notification_screen=True)
 
     # Credit to Cash Transaction
     # Note to partners: cash switching will be triggered if cPay returns any card decline, swipe read errors, etc.
