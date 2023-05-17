@@ -38,7 +38,7 @@ def http_request(endpoint, action, json_body="") -> (urllib3.HTTPResponse, dict)
         headers={
             "pos-id": f"{POS_ID}",
             "fivestars-software-id": f"{FIVESTARS_SOFTWARE_ID}",
-            "authorization": f"Basic {b64encode(bytes(f'{KEY_SECRET}', encoding='ascii')).decode('ascii')}",
+            "authorization": f"Basic {b64encode(bytes(f'{KEY_SECRET}', encoding='utf-8')).decode('utf-8')}",
             "content-type": "application/json",
             "accept": "application/json",
         },
@@ -54,6 +54,13 @@ def http_request(endpoint, action, json_body="") -> (urllib3.HTTPResponse, dict)
     # Add a sleep if you want to slow the calls down
     # time.sleep(2)
     return request, json.loads(request.data.decode("utf-8"))
+
+
+def skip_screen():
+    print("Skipping current screen")
+    res, json_data = http_request(f"actions", "POST", json.dumps({"action": "pay_skip_user_action"}).encode("utf-8"))
+    print(f"Actions endpoint response: {res.status}")
+    print(f"    `-------------payload: {json_data['status']}")
 
 
 def ping():
