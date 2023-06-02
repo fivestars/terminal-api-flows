@@ -32,7 +32,7 @@ def generate_ids(json_data):
     return pos_checkout_id, pos_order_id, customer_uid
 
 
-def http_request(endpoint, action, json_body="") -> Tuple(urllib3.HTTPResponse, dict):
+def http_request(endpoint, action, json_body="") -> Tuple[urllib3.HTTPResponse, dict]:
     request = HTTP.request(
         action,
         f"{BASE_URL}{endpoint}",
