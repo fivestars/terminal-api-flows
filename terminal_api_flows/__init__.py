@@ -1,5 +1,6 @@
 from  base64 import b64encode
 import json
+from typing import Tuple
 import uuid
 import urllib3
 
@@ -31,13 +32,14 @@ def generate_ids(json_data):
     return pos_checkout_id, pos_order_id, customer_uid
 
 
-def http_request(endpoint, action, json_body="") -> (urllib3.HTTPResponse, dict):
+def http_request(endpoint, action, json_body="") -> Tuple(urllib3.HTTPResponse, dict):
     request = HTTP.request(
         action,
         f"{BASE_URL}{endpoint}",
         headers={
             "pos-id": f"{POS_ID}",
             "fivestars-software-id": f"{FIVESTARS_SOFTWARE_ID}",
+            "User-agent": "TapiPythonSampleClient",
             "authorization": f"Basic {b64encode(bytes(f'{KEY_SECRET}', encoding='utf-8')).decode('utf-8')}",
             "content-type": "application/json",
             "accept": "application/json",
