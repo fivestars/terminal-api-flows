@@ -86,12 +86,12 @@ def _toggle_screensaver(screensaver: bool) -> None:
 
 
 def turn_on_screensaver() -> None:
-    print("Turning ON screensaver:")
+    print("Activating screensaver on customer terminal")
     _toggle_screensaver(screensaver=True)
 
 
 def turn_off_screensaver() -> None:
-    print("Turning OFF screensaver:")
+    print("Deactivating screensaver on customer terminal")
     _toggle_screensaver(screensaver=False)
 
 
