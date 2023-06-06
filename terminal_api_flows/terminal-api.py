@@ -5,7 +5,7 @@ from flows.credit_txn import credit_transaction, credit_to_cash_transaction, ver
 from flows.cancel_txn import cancel_transaction, cancel_transaction_404, cancel_transaction_105
 from flows.other_txn import other_transaction
 from flows.refund import refund
-from terminal_api_flows import ping, get_customers
+from terminal_api_flows import get_state, ping, get_customers
 
 
 if __name__ == "__main__":
@@ -25,6 +25,10 @@ if __name__ == "__main__":
 
     # Ping
     ping()
+
+
+    # Get device state action
+    # get_state()
 
     # TAPI v1.0.0.3 https://app.swaggerhub.com/apis/fs-integrations/Terminal-API/1.0.0.3
     # There are 3 options to skip screens and you can enable/disable some or all

@@ -132,3 +132,12 @@ def get_customers(then_cancel=False, skip_signin=False, allow_discount=True):
     print(json_data)
 
     return json_data, discount_uids
+
+
+
+
+def get_state():
+    print("Getting state")
+    res, json_data = http_request("actions", "POST", json.dumps({"action": "get_state"}).encode("utf-8"))
+    print(f"Action endpoint response: {res.status}")
+    print(f"    `--------------state: \n\t{json_data}")
