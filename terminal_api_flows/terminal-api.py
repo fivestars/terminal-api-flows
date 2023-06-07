@@ -5,8 +5,7 @@ from flows.credit_txn import credit_transaction, credit_to_cash_transaction, ver
 from flows.cancel_txn import cancel_transaction, cancel_transaction_404, cancel_transaction_105
 from flows.other_txn import other_transaction
 from flows.refund import refund
-from terminal_api_flows import get_state, ping, get_customers
-
+from terminal_api_flows import get_state, ping, get_customers, turn_on_screensaver, turn_off_screensaver
 
 if __name__ == "__main__":
     # To install: pip install -e .
@@ -111,3 +110,7 @@ if __name__ == "__main__":
     # Just press the "Check in" button on cPay and the script will do the rest
     # get_customers(then_cancel=True)
     # verify_cpay_1567()
+
+    # Screensaver
+    # turn_on_screensaver()
+    # turn_off_screensaver()
