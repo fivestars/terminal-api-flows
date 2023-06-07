@@ -1,4 +1,4 @@
-from  base64 import b64encode
+from base64 import b64encode
 import json
 from typing import Tuple
 import uuid
@@ -63,6 +63,36 @@ def skip_screen():
     res, json_data = http_request(f"actions", "POST", json.dumps({"action": "pay_skip_user_action"}).encode("utf-8"))
     print(f"Actions endpoint response: {res.status}")
     print(f"    `-------------payload: {json_data['status']}")
+
+
+def _toggle_screensaver(screensaver: bool) -> None:
+    res, json_data = http_request(
+        endpoint="actions",
+        action="POST",
+        json_body=json.dumps(
+            {
+                "action": "toggle_screensaver",
+                "data": {
+                    "screensaver_enabled": screensaver
+                }
+            }
+        )
+    )
+
+    if res.status == 200 and json_data["status"] == "SUCCESS":
+        print_outcome("SUCCESS", res.status, json_data)
+    else:
+        print_outcome("FAILED", res.status, json_data)
+
+
+def turn_on_screensaver() -> None:
+    print("Activating screensaver on customer terminal")
+    _toggle_screensaver(screensaver=True)
+
+
+def turn_off_screensaver() -> None:
+    print("Deactivating screensaver on customer terminal")
+    _toggle_screensaver(screensaver=False)
 
 
 def ping():
