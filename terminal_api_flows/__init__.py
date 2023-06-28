@@ -39,7 +39,6 @@ def http_request(endpoint, action, json_body="") -> Tuple[urllib3.HTTPResponse, 
         headers={
             "pos-id": f"{POS_ID}",
             "fivestars-software-id": f"{FIVESTARS_SOFTWARE_ID}",
-            "User-agent": "TapiPythonSampleClient",
             "authorization": f"Basic {b64encode(bytes(f'{KEY_SECRET}', encoding='utf-8')).decode('utf-8')}",
             "content-type": "application/json",
             "accept": "application/json",
